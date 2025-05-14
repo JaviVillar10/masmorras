@@ -24,7 +24,7 @@ public class Juego {
     // ================== MÉTODOS DE CARGA ==================
     /**
      * Carga el tablero desde un archivo de texto.
-     * Formato: '#' para paredes, '.' para suelos.
+     * Formato: '#' para paredes, '.' para suelos. Añado * para trampas.
      */
     public void cargarTablero(String nombreArchivo) throws IOException {
         // Obtener la ruta del archivo desde resources
@@ -49,7 +49,18 @@ public class Juego {
         for (int f = 0; f < filas; f++) {
             String linea = lineas.get(f);
             for (int c = 0; c < columnas; c++) {
-                TipoCelda tipo = (linea.charAt(c) == '#') ? TipoCelda.PARED : TipoCelda.SUELO;
+                char caracter = linea.charAt(c);
+                TipoCelda tipo;
+                switch (caracter) {
+                    case '#':
+                        tipo = TipoCelda.PARED;
+                        break;
+                    case '*':
+                        tipo = TipoCelda.TRAMPA;
+                        break;
+                    default:
+                        tipo = TipoCelda.SUELO;
+                }
                 tablero[f][c] = new Celda(tipo, f, c);
             }
         }
@@ -172,7 +183,7 @@ public class Juego {
         }
     }
 
-    // MOVIMIENTO Y COMBATE 
+    // MOVIMIENTO Y COMBATE
     public void moverProtagonista(String direccion) {
         if (esJuegoTerminado() || !(getPersonajeEnTurno() instanceof Protagonista))
             return;
@@ -256,8 +267,12 @@ public class Juego {
         }
         // Caso 2: Celda vacía
         else {
-            System.out.println("[MOVIMIENTO] " + personaje.getNombre() + " se mueve a (" + nuevaFila + ", " + nuevaCol + ")");
+            System.out.println(
+                    "[MOVIMIENTO] " + personaje.getNombre() + " se mueve a (" + nuevaFila + ", " + nuevaCol + ")");
             personaje.setPosicion(nuevaFila, nuevaCol);
+            if (celdaDestino.getTipo() == TipoCelda.TRAMPA) {
+                personaje.setSalud(personaje.getSalud() - 1);
+            }
         }
 
         notificarObservadores();
@@ -391,6 +406,7 @@ public class Juego {
 
     /**
      * Carga el siguiente nivel cuando el jugador lo decide.
+     * 
      * @return true si se cargó el siguiente nivel, false si no hay más niveles
      */
     public boolean cargarSiguienteNivel() {

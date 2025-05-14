@@ -27,7 +27,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import javafx.scene.control.DialogPane;
-import javafx.scene.control.Button;
 
 public class ControladorJuegoVista implements ObservadorJuego {
     @FXML
@@ -98,6 +97,11 @@ public class ControladorJuegoVista implements ObservadorJuego {
                 // Estilo específico según el tipo de celda
                 if (celdas[f][c].getTipo() == TipoCelda.PARED) {
                     panelCelda.setStyle(estiloBase + " -fx-background-color: linear-gradient(to bottom, #4A3728, #2C1810); -fx-border-color: #8B4513; -fx-border-width: 2;");
+                } else if (celdas[f][c].getTipo() == TipoCelda.TRAMPA) {
+                    panelCelda.setStyle(estiloBase + " -fx-background-color: linear-gradient(to bottom, #D2B48C, #A0522D); -fx-border-color: #8B4513; -fx-border-width: 1;");
+                    Label trampa = new Label("*");
+                    trampa.setStyle("-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #FF0000;");
+                    panelCelda.getChildren().add(trampa);
                 } else {
                     panelCelda.setStyle(estiloBase + " -fx-background-color: linear-gradient(to bottom, #D2B48C, #A0522D); -fx-border-color: #8B4513; -fx-border-width: 1;");
                 }

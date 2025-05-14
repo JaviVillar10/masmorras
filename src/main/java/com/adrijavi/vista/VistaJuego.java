@@ -65,6 +65,11 @@ public class VistaJuego extends BorderPane implements ObservadorJuego {
                 
                 if (celda.getTipo() == TipoCelda.PARED) {
                     panelCelda.setStyle("-fx-background-color: #4A3728; -fx-border-color: #8B4513; -fx-border-width: 1;");
+                } else if (celda.getTipo() == TipoCelda.TRAMPA) {
+                    panelCelda.setStyle("-fx-background-color: #D2B48C; -fx-border-color: #8B4513; -fx-border-width: 1;");
+                    Label trampa = new Label("*");
+                    trampa.setStyle("-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill:rgba(68, 0, 255, 0.4);");
+                    panelCelda.getChildren().add(trampa);
                 } else {
                     panelCelda.setStyle("-fx-background-color: #D2B48C; -fx-border-color: #8B4513; -fx-border-width: 1;");
                 }

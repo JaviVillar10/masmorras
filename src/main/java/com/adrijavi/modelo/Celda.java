@@ -16,6 +16,6 @@ public class Celda {
     public int getColumna() { return columna; }
     
     public boolean esCaminable() {
-        return tipo == TipoCelda.SUELO;
+        return tipo == TipoCelda.SUELO || tipo == TipoCelda.TRAMPA; 
     }
 }
